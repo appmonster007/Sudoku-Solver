@@ -181,29 +181,8 @@ def fixPossibleWithPencil(grid):
                 setRowVal(grid, row, 0, preemtiveSet)
                 setBlockVal(grid, row, col, 0, preemtiveSet)
 
-def usedInCol(grid,col,num): 
-    for i in range(9): 
-        if(grid[col][i] == num): 
-            return True
-    return False
-
-def usedInRow(grid,row,num): 
-    for i in range(9): 
-        if(grid[i][row] == num): 
-            return True
-    return False
-
-def usedInBlock(grid,row,col,num):
-    c = (col//3)*3
-    r = (row//3)*3
-    for i in range(3): 
-        for j in range(3): 
-            if(grid[i+c][j+r] == num): 
-                return True
-    return False
-
 def isLocationSafe(grid,row,col,num):
-    return not usedInRow(grid,row,num) and not usedInCol(grid,col,num) and not usedInBlock(grid,row,col,num)
+    return not inRow(grid,row,num) and not inCol(grid,col,num) and not inBlock(grid,row,col,num)
 
 def findEmptyLocation(grid,cell): 
     for col in range(9): 
@@ -250,8 +229,10 @@ def sudokuSolve():
         for r in range(9):
             if(isinstance(newgrid[c][r], list)):
                 newgrid[c][r] = 0
-    backTrace(newgrid)
-    printGrid(newgrid)
+    if(backTrace(newgrid)):
+        printGrid(newgrid)
+    else:
+        print("no solution exists")
     
 sudokuSolve()
 t1 = time.clock() - t0
